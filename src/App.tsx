@@ -1,5 +1,5 @@
 import { useState } from "react";
-
+import { produce } from "immer";
 function App() {
   const [drink, setDrink] = useState({
     title: "Americano",
@@ -38,14 +38,27 @@ function App() {
     // setTags(tags.filter((tag) => tag !== "happy")); // returns true for all except the happy
     //updating
     // setTags(tags.map((tag) => (tag === "happy" ? "happyness" : tag)));
-    setBug(bugs.map((bug) => (bug.id === 1 ? { ...bug, fixed: true } : bug)));
+    //updating array of objects
+    // setBug(bugs.map((bug) => (bug.id === 1 ? { ...bug, fixed: true } : bug)));
+    //updating array of objects using the immer
+
+    setBug(
+      produce((draft) => {
+        let bug = draft.find((bug) => bug.id === 1);
+        if (bug) bug.fixed = true;
+      })
+    );
   };
 
   let bugTitle = bugs[0].fixed ? "Fixed Bug " : "Not fixed";
   return (
     <div>
+      {bugs.map((bug) => (
+        <p key={bug.id}>
+          {bug.title} {bug.fixed ? "Fixed" : "New"}
+        </p>
+      ))}
       <button onClick={handleClick}>Click</button>
-      <p>Bug 1 Status : {bugTitle}</p>
     </div>
   );
 }
