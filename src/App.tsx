@@ -13,25 +13,39 @@ function App() {
       zipCode: 560098,
     },
   });
+  const [tags, setTags] = useState(["happy ", "cheerful"]);
+
   const handleClick = () => {
     // const newDrink = {
     //   ...drink, // incase if the object has many properties then we can do like this
     //   price: 10,
     // };
     // setDrink(newDrink);
-    setCustomer({
-      ...customer,
-      address: {
-        ...customer.address,
-        zipCode: 571401,
-      },
-    });
+    // setCustomer({
+    //   ...customer,
+    //   address: {
+    //     ...customer.address,
+    //     zipCode: 571401,
+    //   },
+    // });
+
+    // Managing the State of an Array
+    // Adding the elements
+    // setTags([...tags, "excited"]);
+    //removing the elements
+
+    // setTags(tags.filter((tag) => tag !== "happy")); // returns true for all except the happy
+    //updating
+
+    setTags(tags.map((tag) => (tag === "happy" ? "happyness" : tag)));
   };
   return (
     <div>
       <button onClick={handleClick}>Click</button>
-      {/* <p>The Price of drink is {drink.price}</p> */}
-      <p>The Zip code updated is {customer.address.zipCode}</p>
+      {tags.length === 0 && <p>No items</p>}
+      {tags.map((tag) => (
+        <p>{tag}</p>
+      ))}
     </div>
   );
 }
